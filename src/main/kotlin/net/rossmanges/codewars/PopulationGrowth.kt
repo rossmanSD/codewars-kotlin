@@ -13,6 +13,7 @@ class PopulationGrowth {
 
     /**
      * returns number of entire years needed to get a population greater or equal to the goal.
+     * (my initial solution)
      *
      * [p0] - initial population (>0).
      * [growthPct] - population increase percentage per year (>0.0 or null).
@@ -28,4 +29,14 @@ class PopulationGrowth {
         }
         return iterations
     }
+
+    /**
+     * More idiomatic solution (adapted from solutions on CodeWars)
+     */
+    fun idiomaticNbYear(p0:Int, growthPct:Double?, aug:Int, goal:Int) =
+        generateSequence(p0) { population -> population + applyPercent(growthPct, population) + aug }
+            .takeWhile { population -> population < goal }
+            .count()
+
+    private fun applyPercent(percentage: Double?, target: Int) = (target * ((percentage ?: 0.0)/100.0)).roundToInt()
 }
